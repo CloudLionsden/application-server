@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template to create a Windows Server 2022 EC2 instance with specific
+  requirements.
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-05e4989778640d6bb # Windows Server 2022 AMI ID for Northern Virginia (us-east-1)
+      KeyName: mykey
+      SubnetId: !Ref SubnetId
+      SecurityGroupIds:
+        - !Ref SecurityGroup
+      Tags:
+        - Key: Name
+          Value: Application-server
+        - Key: environment
+          Value: development # This can be changed to production or QA during launch
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow access to SQL Server
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 1433
+          ToPort: 1433
+          CidrIp: 0.0.0.0/0 # Change this to restrict access as needed
+
+Parameters:
+  VpcId:
+    Description: Choose the VPC to launch the instance in
+    Type: AWS::EC2::VPC::Id
+  SubnetId:
+    Description: Choose the Subnet to launch the instance in
+    Type: AWS::EC2::Subnet::Id
+
+Metadata:
+  AWS::CloudFormation::Init:
+    config:
+      commands:
+        set-timezone:
+          command: tzutil /s "Eastern Standard Time"
+
+Outputs:
+  InstanceId:
+    Description: The Instance ID of the EC2 instance
+    Value: !Ref EC2Instance
