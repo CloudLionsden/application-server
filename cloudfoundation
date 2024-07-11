@@ -16,7 +16,7 @@ Resources:
         - Key: Name
           Value: Application-server
         - Key: environment
-          Value: development # This can be changed to production or QA during launch
+          Value: development 
 
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
