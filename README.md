@@ -1,4 +1,4 @@
-This is a template to create an AWS t2.micro ec2 with a windows-2022 server in us-east-1, default vpc with access to a sql database server.
+This is a CloudFormation template to create an AWS t2.micro ec2 with a windows-2022 server in us-east-1, default vpc with access to a sql database server.
 
 
 I will be honest, the Windows -2022 server and the SQL had me thinking because there are no  2022 Microsoft SQL Server versions  that support t2 micro or t3.micro. That was an easy fix, the SQL servers support those grades are versions before 2017.
